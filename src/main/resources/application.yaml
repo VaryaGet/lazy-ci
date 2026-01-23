@@ -1,1 +1,7 @@
-bot-token: ${BOT_TOKEN_LAZY_CI}
+bot:
+  token: ${BOT_TOKEN_LAZY_CI}
+  apps:
+    dir: ${APPS_DIR_LAZY_CI}
+github:
+  token: ${GITHUB_TOKEN_LAZY_CI}
+  user: ${GITHUB_USER_LAZY_CI}
