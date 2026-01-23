@@ -5,7 +5,9 @@ import io.github.artemget.entrys.file.EVal;
 import io.github.artemget.teleroute.match.MatchRegex;
 import io.github.artemget.teleroute.route.RouteFork;
 import io.github.artemget.teleroute.telegrambots.bot.ConnectionTg;
-import io.github.varyaget.bot.cmd.CmdClone;
+import io.github.varyaget.bot.cmd.CmdGitClone;
+import io.github.varyaget.bot.cmd.CmdDockerUp;
+import io.github.varyaget.bot.docker.DockerClient;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -16,7 +18,11 @@ public class Main {
             new EVal("bot.token", props).value(),
             new RouteFork<>(
                 new MatchRegex<>("clone .*"),
-                new CmdClone("http.*", appsdir)
+                new CmdGitClone("clone ", appsdir)
+            ),
+            new RouteFork<>(
+                new MatchRegex<>("up .*"),
+                new CmdDockerUp("up ", appsdir, new DockerClient())
             )
         ).open();
     }
