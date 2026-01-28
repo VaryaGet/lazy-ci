@@ -5,7 +5,7 @@ import java.util.function.Function;
 import io.github.artemget.teleroute.command.Cmd;
 import io.github.artemget.teleroute.send.Send;
 import io.github.artemget.teleroute.telegrambots.send.SendMessageWrap;
-import io.github.varyaget.bot.Substring;
+import io.github.varyaget.bot.TrimStart;
 import io.github.varyaget.bot.docker.Client;
 import io.github.varyaget.bot.docker.DockerClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,24 +14,24 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 public class CmdDockerUp implements Cmd<Update, TelegramClient> {
 
-    private final Function<String, String> pattern;
+    private final Function<String, String> filter;
     private final File directory;
     private final Client dockerClient;
 
-    public CmdDockerUp(String regex, File directory){
-        this(new Substring(regex), directory);
+    public CmdDockerUp(String trim, File directory){
+        this(new TrimStart(trim), directory);
     }
 
-    public CmdDockerUp(Function<String, String> pattern, File directory){
-        this(pattern,directory,new DockerClient());
+    public CmdDockerUp(Function<String, String> filter, File directory){
+        this(filter,directory,new DockerClient());
     }
 
     public CmdDockerUp(String regex, File directory, Client dockerClient) {
-        this(new Substring(regex), directory, dockerClient);
+        this(new TrimStart(regex), directory, dockerClient);
     }
 
-    public CmdDockerUp(Function<String, String> pattern, File directory, Client dockerClient) {
-        this.pattern = pattern;
+    public CmdDockerUp(Function<String, String> filter, File directory, Client dockerClient) {
+        this.filter = filter;
         this.directory = directory;
         this.dockerClient = dockerClient;
     }
@@ -41,7 +41,7 @@ public class CmdDockerUp implements Cmd<Update, TelegramClient> {
         this.dockerClient.composeUp(
             new File(
                 this.directory,
-                pattern.apply(update.getMessage().getText())
+                this.filter.apply(update.getMessage().getText())
             )
         );
         return new SendMessageWrap<>(

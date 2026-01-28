@@ -2,11 +2,11 @@ package io.github.varyaget.bot;
 
 import java.util.function.Function;
 
-public class Substring implements Function<String, String> {
+public class TrimStart implements Function<String, String> {
     private final String prefix;
     private final int prefixLength;
 
-    public Substring(String prefix) {
+    public TrimStart(String prefix) {
         this.prefix = prefix;
         this.prefixLength = prefix.length();
     }

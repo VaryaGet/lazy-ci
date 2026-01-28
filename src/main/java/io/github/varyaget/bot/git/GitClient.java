@@ -6,13 +6,19 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.URIish;
 
 public final class GitClient implements Client {
-    public File clone(final String url, final File targetDirectory) throws Exception {
+    private final File targetDirectory;
+
+    public GitClient(final File targetDirectory) {
+        this.targetDirectory = targetDirectory;
+    }
+
+    public File clone(final String url) throws Exception {
         final File repositoryDir = new File(
-            targetDirectory,
+            this.targetDirectory,
             new URIish(url).getHumanishName()
         );
         
-        ensureDirectoryExists(targetDirectory);
+        ensureDirectoryExists(this.targetDirectory);
         
         Git.cloneRepository()
             .setURI(url)

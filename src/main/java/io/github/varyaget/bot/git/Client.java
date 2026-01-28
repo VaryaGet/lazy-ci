@@ -5,5 +5,5 @@ import java.io.IOException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 public interface Client {
-    File clone(String url, File targetDirectory) throws Exception;
+    File clone(String url) throws Exception;
 }

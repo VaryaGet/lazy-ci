@@ -5,7 +5,8 @@ import java.util.function.Function;
 import io.github.artemget.teleroute.command.Cmd;
 import io.github.artemget.teleroute.send.Send;
 import io.github.artemget.teleroute.telegrambots.send.SendMessageWrap;
-import io.github.varyaget.bot.Substring;
+import io.github.varyaget.bot.TrimStart;
+import io.github.varyaget.bot.git.Client;
 import io.github.varyaget.bot.git.GitClient;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -13,32 +14,29 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 public class CmdGitClone implements Cmd<Update, TelegramClient> {
 
-    private final Function<String, String> pattern;
-    private final File directory;
-    private final GitClient gitClient;
+    private final Function<String, String> filter;
+    private final Client gitClient;
 
-    public CmdGitClone(String regex, File directory) {
-        this(new Substring(regex), directory, new GitClient());
+    public CmdGitClone(String trim, File directory) {
+        this(new TrimStart(trim), new GitClient(directory));
     }
 
-    public CmdGitClone(Function<String,String> pattern, File directory) {
-        this(pattern, directory, new GitClient());
+    public CmdGitClone(Function<String,String> filter, File directory) {
+        this(filter, new GitClient(directory));
     }
 
     public CmdGitClone(
-        Function<String,String> pattern,
-        File directory,
-        GitClient gitClient
+        Function<String,String> filter,
+        Client gitClient
     ) {
-        this.pattern = pattern;
-        this.directory = directory;
+        this.filter = filter;
         this.gitClient = gitClient;
     }
 
     @Override
     public Send<TelegramClient> execute(final Update update) throws Exception {
-        final String url = pattern.apply(update.getMessage().getText());
-        gitClient.clone(url, directory);
+        final String url = filter.apply(update.getMessage().getText());
+        gitClient.clone(url);
         return new SendMessageWrap<>(
             new SendMessage(
                 update.getMessage().getChatId().toString(),

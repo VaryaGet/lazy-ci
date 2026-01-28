@@ -22,7 +22,7 @@ public class Main {
             ),
             new RouteFork<>(
                 new MatchRegex<>("up .*"),
-                new CmdDockerUp("up ", appsdir, new DockerClient())
+                new CmdDockerUp("up ", appsdir)
             )
         ).open();
     }
