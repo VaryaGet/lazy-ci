@@ -57,5 +57,11 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>7.5.0.202512021534-r</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

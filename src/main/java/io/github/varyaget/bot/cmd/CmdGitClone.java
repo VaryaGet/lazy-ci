@@ -40,7 +40,7 @@ public class CmdGitClone implements Cmd<Update, TelegramClient> {
         return new SendMessageWrap<>(
             new SendMessage(
                 update.getMessage().getChatId().toString(),
-                "done"
+                "Git repository successfully pulled"
             )
         );
     }

@@ -2,11 +2,14 @@ package io.github.varyaget;
 
 import java.io.File;
 import io.github.artemget.entrys.file.EVal;
+import io.github.artemget.teleroute.command.CmdBatch;
 import io.github.artemget.teleroute.match.MatchRegex;
 import io.github.artemget.teleroute.route.RouteFork;
 import io.github.artemget.teleroute.telegrambots.bot.ConnectionTg;
+import io.github.varyaget.bot.Substring;
 import io.github.varyaget.bot.cmd.CmdGitClone;
 import io.github.varyaget.bot.cmd.CmdDockerUp;
+import io.github.varyaget.bot.cmd.CmdListRepos;
 import io.github.varyaget.bot.docker.DockerClient;
 
 public class Main {
@@ -23,6 +26,20 @@ public class Main {
             new RouteFork<>(
                 new MatchRegex<>("up .*"),
                 new CmdDockerUp("up ", appsdir)
+            ),
+            new RouteFork<>(
+                new MatchRegex<>("ci .*"),
+                new CmdBatch<>(
+                    new CmdGitClone("ci ", appsdir),
+                    new CmdDockerUp(
+                        new Substring("ci\\s+https?://[^/]+/[^/]+/([^\\s./]+)"), 
+                        appsdir
+                    )
+                )
+            ),
+            new RouteFork<>(
+                new MatchRegex<>("list"),
+                new CmdListRepos(appsdir)
             )
         ).open();
     }
