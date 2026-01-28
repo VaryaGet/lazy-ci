@@ -25,16 +25,12 @@ public final class CmdListRepos implements Cmd<Update, TelegramClient> {
 
     @Override
     public Send<TelegramClient> execute(final Update update) throws Exception {
-        final List<File> repositories = repoClient.repositories();
-        
-        final String message = repositories.isEmpty()
-            ? "No git repositories found"
-            : formatRepositoriesList(repositories);
-        
         return new SendMessageWrap<>(
             new SendMessage(
                 update.getMessage().getChatId().toString(),
-                message
+                repoClient.repositories().isEmpty()
+                    ? "No git repositories found"
+                    : formatRepositoriesList(repoClient.repositories())
             )
         );
     }

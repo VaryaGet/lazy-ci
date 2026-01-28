@@ -13,18 +13,13 @@ public class DockerClient implements Client {
         processBuilder.command("docker", "compose", "up", "-d");
         Process process = processBuilder.start();
 
-        String output = readStream(process.getInputStream());
-        String error = readStream(process.getErrorStream());
-
-        int exitCode = process.waitFor();
-        
-        if (exitCode != 0) {
+        if (process.waitFor() != 0) {
             throw new Exception(
                 String.format(
                     "Failed to start docker containers. Exit code: %d\nError: %s\nOutput: %s",
-                    exitCode,
-                    error,
-                    output
+                    process.waitFor(),
+                    readStream(process.getErrorStream()),
+                    readStream(process.getInputStream())
                 )
             );
         }

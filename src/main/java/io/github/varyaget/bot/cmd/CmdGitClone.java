@@ -35,8 +35,7 @@ public class CmdGitClone implements Cmd<Update, TelegramClient> {
 
     @Override
     public Send<TelegramClient> execute(final Update update) throws Exception {
-        final String url = filter.apply(update.getMessage().getText());
-        gitClient.clone(url);
+        this.gitClient.clone(filter.apply(update.getMessage().getText()));
         return new SendMessageWrap<>(
             new SendMessage(
                 update.getMessage().getChatId().toString(),

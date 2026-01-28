@@ -13,17 +13,18 @@ public final class GitClient implements Client {
     }
 
     public File clone(final String url) throws Exception {
-        final File repositoryDir = new File(
-            this.targetDirectory,
-            new URIish(url).getHumanishName()
-        );
-        
         ensureDirectoryExists(this.targetDirectory);
         
-        Git.cloneRepository()
+        final File repositoryDir = Git.cloneRepository()
             .setURI(url)
-            .setDirectory(repositoryDir)
-            .call();
+            .setDirectory(new File(
+                this.targetDirectory,
+                new URIish(url).getHumanishName()
+            ))
+            .call()
+            .getRepository()
+            .getDirectory()
+            .getParentFile();
             
         return repositoryDir;
     }

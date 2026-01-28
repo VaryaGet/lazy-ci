@@ -27,9 +27,8 @@ public class Substring implements Function<String, String> {
 
     @Override
     public String apply(final String s) {
-        Matcher matcher = pattern.matcher(s);
-        if (matcher.find()) {
-            return matcher.group(group).trim();
+        if (pattern.matcher(s).find()) {
+            return pattern.matcher(s).group(group).trim();
         }
         return "";
     }

@@ -19,12 +19,7 @@ public final class RepoClient implements Client {
     public List<File> repositories() throws Exception {
         ensureDirectoryExists(directory);
         
-        final File[] files = directory.listFiles();
-        if (files == null) {
-            return new ArrayList<>();
-        }
-        
-        return Arrays.stream(files)
+        return Arrays.stream(directory.listFiles())
             .filter(File::isDirectory)
             .filter(this::isGitRepository)
             .collect(Collectors.toList());
