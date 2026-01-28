@@ -6,4 +6,5 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 public interface Client {
     File clone(String url) throws Exception;
+    void pull(String repositoryName) throws Exception;
 }

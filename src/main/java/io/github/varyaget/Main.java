@@ -8,9 +8,9 @@ import io.github.artemget.teleroute.route.RouteFork;
 import io.github.artemget.teleroute.telegrambots.bot.ConnectionTg;
 import io.github.varyaget.bot.Substring;
 import io.github.varyaget.bot.cmd.CmdGitClone;
+import io.github.varyaget.bot.cmd.CmdGitPull;
 import io.github.varyaget.bot.cmd.CmdDockerUp;
 import io.github.varyaget.bot.cmd.CmdListRepos;
-import io.github.varyaget.bot.docker.DockerClient;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -24,16 +24,27 @@ public class Main {
                 new CmdGitClone("clone ", appsdir)
             ),
             new RouteFork<>(
+                new MatchRegex<>("pull .*"),
+                new CmdGitPull("pull ", appsdir)
+            ),
+            new RouteFork<>(
                 new MatchRegex<>("up .*"),
                 new CmdDockerUp("up ", appsdir)
             ),
             new RouteFork<>(
                 new MatchRegex<>("ci .*"),
-                new CmdBatch<>(
-                    new CmdGitClone("ci ", appsdir),
-                    new CmdDockerUp(
-                        new Substring("ci\\s+https?://[^/]+/[^/]+/([^\\s./]+)"), 
-                        appsdir
+                new RouteFork<>(
+                    new MatchRegex<>("ci http.*"),
+                    new CmdBatch<>(
+                        new CmdGitClone("ci ", appsdir),
+                        new CmdDockerUp(
+                            new Substring("ci\\s+https?://[^/]+/[^/]+/([^\\s./]+)"),
+                            appsdir
+                        )
+                    ),
+                    new CmdBatch<>(
+                        new CmdGitPull("ci ", appsdir),
+                        new CmdDockerUp("ci ", appsdir)
                     )
                 )
             ),

@@ -29,6 +29,25 @@ public final class GitClient implements Client {
         return repositoryDir;
     }
     
+    @Override
+    public void pull(final String repositoryName) throws Exception {
+        final File repositoryDir = new File(this.targetDirectory, repositoryName);
+        
+        if (!repositoryDir.exists() || !repositoryDir.isDirectory()) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Repository '%s' not found in directory: %s",
+                    repositoryName,
+                    this.targetDirectory.getAbsolutePath()
+                )
+            );
+        }
+        
+        try (Git git = Git.open(repositoryDir)) {
+            git.pull().call();
+        }
+    }
+    
     private void ensureDirectoryExists(final File directory) throws IOException {
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException(
