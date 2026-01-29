@@ -6,15 +6,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import io.github.artemget.teleroute.command.Cmd;
 import io.github.artemget.teleroute.route.Route;
+import io.github.artemget.teleroute.route.RouteDfs;
 import io.github.artemget.teleroute.update.Wrap;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 public final class RouteAdmin implements Route<Update, TelegramClient> {
-
     private final Route<Update, TelegramClient> origin;
 
     private final Set<Long> whitelist;
+
+    @SafeVarargs
+    public RouteAdmin(List<String> whitelist, final Route<Update, TelegramClient>... routes) {
+        this(whitelist, new RouteDfs<>(routes));
+    }
 
     public RouteAdmin(List<String> whitelist, final Route<Update, TelegramClient> origin) {
         this(whitelist.stream().map(Long::parseLong).collect(Collectors.toSet()), origin);
