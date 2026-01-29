@@ -1,4 +1,5 @@
 bot:
-  token: ${BOT_TOKEN_LAZY_CI}
+  token: ${LAZY_CI_BOT_TOKEN}
   apps:
-    dir: ${APPS_DIR_LAZY_CI}
+    dir: ${LAZY_CI_APPS_DIR}
+  whitelist: ${LAZY_CI_BOT_WHITELIST}
