@@ -1,6 +1,7 @@
 package io.github.varyaget.bot;
 
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Substring implements Function<String, String> {
@@ -26,8 +27,9 @@ public class Substring implements Function<String, String> {
 
     @Override
     public String apply(final String s) {
-        if (pattern.matcher(s).find()) {
-            return pattern.matcher(s).group(group).trim();
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.find()) {
+            return matcher.group(group).trim();
         }
         return "";
     }
