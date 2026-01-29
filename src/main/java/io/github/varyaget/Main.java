@@ -7,10 +7,7 @@ import io.github.artemget.teleroute.match.MatchRegex;
 import io.github.artemget.teleroute.route.RouteFork;
 import io.github.artemget.teleroute.telegrambots.bot.ConnectionTg;
 import io.github.varyaget.bot.Substring;
-import io.github.varyaget.bot.cmd.CmdDockerUp;
-import io.github.varyaget.bot.cmd.CmdGitClone;
-import io.github.varyaget.bot.cmd.CmdGitPull;
-import io.github.varyaget.bot.cmd.CmdListRepos;
+import io.github.varyaget.bot.cmd.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -39,6 +36,10 @@ public class Main {
             new RouteFork<>(
                 new MatchRegex<>("list"),
                 new CmdListRepos(appsdir)
+            ),
+            new RouteFork<>(
+                new MatchRegex<>("run .*"),
+                new CmdRunCommand("run ")
             )
         ).open();
     }
