@@ -18,12 +18,12 @@ public class CmdDockerUp implements Cmd<Update, TelegramClient> {
     private final File directory;
     private final Client dockerClient;
 
-    public CmdDockerUp(String trim, File directory){
+    public CmdDockerUp(String trim, File directory) {
         this(new TrimStart(trim), directory);
     }
 
-    public CmdDockerUp(Function<String, String> filter, File directory){
-        this(filter,directory,new DockerClient());
+    public CmdDockerUp(Function<String, String> filter, File directory) {
+        this(filter, directory, new DockerClient());
     }
 
     public CmdDockerUp(String regex, File directory, Client dockerClient) {

@@ -21,12 +21,12 @@ public class CmdGitPull implements Cmd<Update, TelegramClient> {
         this(new TrimStart(trim), new GitClient(directory));
     }
 
-    public CmdGitPull(Function<String,String> filter, File directory) {
+    public CmdGitPull(Function<String, String> filter, File directory) {
         this(filter, new GitClient(directory));
     }
 
     public CmdGitPull(
-        Function<String,String> filter,
+        Function<String, String> filter,
         Client gitClient
     ) {
         this.filter = filter;

@@ -14,7 +14,7 @@ public final class GitClient implements Client {
 
     public File clone(final String url) throws Exception {
         ensureDirectoryExists(this.targetDirectory);
-        
+
         final File repositoryDir = Git.cloneRepository()
             .setURI(url)
             .setDirectory(new File(
@@ -25,14 +25,14 @@ public final class GitClient implements Client {
             .getRepository()
             .getDirectory()
             .getParentFile();
-            
+
         return repositoryDir;
     }
-    
+
     @Override
     public void pull(final String repositoryName) throws Exception {
         final File repositoryDir = new File(this.targetDirectory, repositoryName);
-        
+
         if (!repositoryDir.exists() || !repositoryDir.isDirectory()) {
             throw new IllegalArgumentException(
                 String.format(
@@ -42,12 +42,12 @@ public final class GitClient implements Client {
                 )
             );
         }
-        
+
         try (Git git = Git.open(repositoryDir)) {
             git.pull().call();
         }
     }
-    
+
     private void ensureDirectoryExists(final File directory) throws IOException {
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException(

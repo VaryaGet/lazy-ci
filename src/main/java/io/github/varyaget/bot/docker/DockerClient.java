@@ -5,13 +5,13 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class DockerClient implements Client {
-    
+
     @Override
     public void composeUp(File composeDir) throws Exception {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        processBuilder.directory(composeDir);
-        processBuilder.command("docker", "compose", "up", "-d");
-        Process process = processBuilder.start();
+        Process process = new ProcessBuilder()
+            .directory(composeDir)
+            .command("docker", "compose", "up", "-d")
+            .start();
 
         if (process.waitFor() != 0) {
             throw new Exception(
@@ -24,7 +24,7 @@ public class DockerClient implements Client {
             );
         }
     }
-    
+
     private String readStream(InputStream stream) throws Exception {
         return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
     }

@@ -1,7 +1,6 @@
 package io.github.varyaget.bot;
 
 import java.util.function.Function;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Substring implements Function<String, String> {

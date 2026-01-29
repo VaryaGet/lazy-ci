@@ -38,14 +38,14 @@ public final class CmdListRepos implements Cmd<Update, TelegramClient> {
     private String formatRepositoriesList(final List<File> repositories) {
         final StringBuilder builder = new StringBuilder();
         builder.append("Git repositories:\n\n");
-        
+
         for (int i = 0; i < repositories.size(); i++) {
             builder.append(i + 1)
-                   .append(". ")
-                   .append(repositories.get(i).getName())
-                   .append("\n");
+                .append(". ")
+                .append(repositories.get(i).getName())
+                .append("\n");
         }
-        
+
         return builder.toString();
     }
 }

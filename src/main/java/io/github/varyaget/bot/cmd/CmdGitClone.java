@@ -18,15 +18,15 @@ public class CmdGitClone implements Cmd<Update, TelegramClient> {
     private final Client gitClient;
 
     public CmdGitClone(String trim, File directory) {
-        this(new TrimStart(trim), new GitClient(directory));
+        this(new TrimStart(trim), directory);
     }
 
-    public CmdGitClone(Function<String,String> filter, File directory) {
+    public CmdGitClone(Function<String, String> filter, File directory) {
         this(filter, new GitClient(directory));
     }
 
     public CmdGitClone(
-        Function<String,String> filter,
+        Function<String, String> filter,
         Client gitClient
     ) {
         this.filter = filter;
