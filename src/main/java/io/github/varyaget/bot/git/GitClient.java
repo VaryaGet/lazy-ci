@@ -5,50 +5,61 @@ import java.io.IOException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.URIish;
 
+/**
+ * Git client implementation.
+ *
+ * @since 1.0
+ */
 public final class GitClient implements Client {
-    private final File targetDirectory;
+    /**
+     * Target directory.
+     */
+    private final File targetdir;
 
-    public GitClient(final File targetDirectory) {
-        this.targetDirectory = targetDirectory;
+    /**
+     * Constructor.
+     *
+     * @param targetdir Target directory
+     */
+    public GitClient(final File targetdir) {
+        this.targetdir = targetdir;
     }
 
+    @Override
     public File clone(final String url) throws Exception {
-        ensureDirectoryExists(this.targetDirectory);
-
-        final File repositoryDir = Git.cloneRepository()
+        GitClient.ensureDirectoryExists(this.targetdir);
+        return Git.cloneRepository()
             .setURI(url)
-            .setDirectory(new File(
-                this.targetDirectory,
-                new URIish(url).getHumanishName()
-            ))
+            .setDirectory(
+                new File(
+                    this.targetdir,
+                    new URIish(url).getHumanishName()
+                )
+            )
             .call()
             .getRepository()
             .getDirectory()
             .getParentFile();
-
-        return repositoryDir;
     }
 
     @Override
-    public void pull(final String repositoryName) throws Exception {
-        final File repositoryDir = new File(this.targetDirectory, repositoryName);
-
-        if (!repositoryDir.exists() || !repositoryDir.isDirectory()) {
+    public void pull(final String reponame) throws Exception {
+        final File repodir = new File(this.targetdir, reponame);
+        if (!repodir.exists() || !repodir.isDirectory()) {
             throw new IllegalArgumentException(
                 String.format(
                     "Repository '%s' not found in directory: %s",
-                    repositoryName,
-                    this.targetDirectory.getAbsolutePath()
+                    reponame,
+                    this.targetdir.getAbsolutePath()
                 )
             );
         }
-
-        try (Git git = Git.open(repositoryDir)) {
+        try (Git git = Git.open(repodir)) {
             git.pull().call();
         }
     }
 
-    private void ensureDirectoryExists(final File directory) throws IOException {
+    private static void ensureDirectoryExists(final File directory) throws IOException {
         if (!directory.exists() && !directory.mkdirs()) {
             throw new IOException(
                 String.format(

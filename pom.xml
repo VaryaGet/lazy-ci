@@ -90,6 +90,25 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.qulice</groupId>
+                <artifactId>qulice-maven-plugin</artifactId>
+                <version>0.24.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>checkstyle:/src/main/java/io/github/varyaget/Main.java</exclude>
+                        <exclude>pmd:/src/main/java/io/github/varyaget/Main.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.9.0</version>
             </plugin>

@@ -4,33 +4,68 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Substring implements Function<String, String> {
+/**
+ * Extracts substring using regex patterns.
+ *
+ * @since 1.0
+ */
+public final class Substring implements Function<String, String> {
+    /**
+     * Pattern to match.
+     */
     private final Pattern pattern;
+
+    /**
+     * Group to extract.
+     */
     private final int group;
 
-    public Substring(String regex) {
+    /**
+     * Constructor with regex string.
+     *
+     * @param regex Regex pattern
+     */
+    public Substring(final String regex) {
         this(regex, 1);
     }
 
-    public Substring(Pattern pattern) {
+    /**
+     * Constructor with Pattern.
+     *
+     * @param pattern Pattern to use
+     */
+    public Substring(final Pattern pattern) {
         this(pattern, 1);
     }
 
-    public Substring(String regex, int group) {
+    /**
+     * Constructor with regex string and group.
+     *
+     * @param regex Regex pattern
+     * @param group Group to extract
+     */
+    public Substring(final String regex, final int group) {
         this(Pattern.compile(regex), group);
     }
 
-    public Substring(Pattern pattern, int group) {
+    /**
+     * Constructor with Pattern and group.
+     *
+     * @param pattern Pattern to use
+     * @param group   Group to extract
+     */
+    public Substring(final Pattern pattern, final int group) {
         this.pattern = pattern;
         this.group = group;
     }
 
     @Override
-    public String apply(final String s) {
-        Matcher matcher = pattern.matcher(s);
+    public String apply(final String input) {
+        final Matcher matcher = this.pattern.matcher(input);
+        String result = "";
         if (matcher.find()) {
-            return matcher.group(group).trim();
+            result = matcher.group(this.group).trim();
         }
-        return "";
+        return result;
     }
 }

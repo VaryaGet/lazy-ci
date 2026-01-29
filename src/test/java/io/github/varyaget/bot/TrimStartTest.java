@@ -1,84 +1,93 @@
 package io.github.varyaget.bot;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class TrimStartTest {
+/**
+ * Tests for {@link TrimStart}.
+ *
+ * @since 1.0
+ */
+@SuppressWarnings("PMD.TooManyMethods")
+final class TrimStartTest {
+    /**
+     * Test prefix.
+     */
+    private static final String PREFIX = "prefix";
 
     @Test
     void testConstructor() {
-        TrimStart trimStart = new TrimStart("prefix");
-        assertNotNull(trimStart);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        Assertions.assertNotNull(trim);
     }
 
     @Test
     void testApplyBasic() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("prefix some text");
-        assertEquals("some text", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply("prefix some text");
+        Assertions.assertEquals("some text", result, "Should trim prefix and whitespace");
     }
 
     @Test
     void testApplyWhenNoPrefix() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("no prefix here");
-        assertEquals("", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply("no prefix here");
+        Assertions.assertEquals("", result, "Should return empty string when no prefix");
     }
 
     @Test
     void testApplyWithEmptyString() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("");
-        assertEquals("", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply("");
+        Assertions.assertEquals("", result, "Should return empty string for empty input");
     }
 
     @Test
     void testApplyWithOnlyPrefix() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("prefix");
-        assertEquals("", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply(TrimStartTest.PREFIX);
+        Assertions.assertEquals("", result, "Should return empty string when only prefix");
     }
 
     @Test
     void testApplyWithPrefixAndWhitespace() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("prefix   some text");
-        assertEquals("some text", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply("prefix   some text");
+        Assertions.assertEquals("some text", result, "Should trim prefix and multiple spaces");
     }
 
     @Test
     void testApplyWithPrefixAndNoWhitespace() {
-        TrimStart trimStart = new TrimStart("prefix");
-        String result = trimStart.apply("prefixsome text");
-        assertEquals("some text", result);
+        final TrimStart trim = new TrimStart(TrimStartTest.PREFIX);
+        final String result = trim.apply("prefixsome text");
+        Assertions.assertEquals("some text", result, "Should trim prefix without whitespace");
     }
 
     @Test
     void testApplyWithCaseSensitivePrefix() {
-        TrimStart trimStart = new TrimStart("Prefix");
-        String result = trimStart.apply("prefix some text");
-        assertEquals("", result);
+        final TrimStart trim = new TrimStart("Prefix");
+        final String result = trim.apply("prefix some text");
+        Assertions.assertEquals("", result, "Should be case sensitive");
     }
 
     @Test
     void testApplyWithSpecialCharactersPrefix() {
-        TrimStart trimStart = new TrimStart("/command ");
-        String result = trimStart.apply("/command some text");
-        assertEquals("some text", result);
+        final TrimStart trim = new TrimStart("/command ");
+        final String result = trim.apply("/command some text");
+        Assertions.assertEquals("some text", result, "Should handle special characters");
     }
 
     @Test
     void testApplyWithCommandPrefix() {
-        TrimStart trimStart = new TrimStart("/command");
-        String result = trimStart.apply("/command text");
-        assertEquals("text", result);
+        final TrimStart trim = new TrimStart("/command");
+        final String result = trim.apply("/command text");
+        Assertions.assertEquals("text", result, "Should handle command prefix");
     }
 
     @Test
     void testApplyWithNumberPrefix() {
-        TrimStart trimStart = new TrimStart("123");
-        String result = trimStart.apply("123numbers");
-        assertEquals("numbers", result);
+        final TrimStart trim = new TrimStart("123");
+        final String result = trim.apply("123numbers");
+        Assertions.assertEquals("numbers", result, "Should handle numeric prefix");
     }
 }

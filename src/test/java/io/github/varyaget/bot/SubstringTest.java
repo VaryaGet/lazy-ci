@@ -1,85 +1,94 @@
 package io.github.varyaget.bot;
 
 import java.util.regex.Pattern;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class SubstringTest {
+/**
+ * Tests for {@link Substring}.
+ *
+ * @since 1.0
+ */
+@SuppressWarnings("PMD.TooManyMethods")
+final class SubstringTest {
+    /**
+     * Test regex pattern.
+     */
+    private static final String TEST_REGEX = "test(\\d+)";
 
     @Test
     void testConstructorWithStringRegex() {
-        Substring substring = new Substring("test(\\d+)");
-        assertNotNull(substring);
+        final Substring substring = new Substring(SubstringTest.TEST_REGEX);
+        Assertions.assertNotNull(substring);
     }
 
     @Test
     void testConstructorWithPattern() {
-        Pattern pattern = Pattern.compile("test(\\d+)");
-        Substring substring = new Substring(pattern);
-        assertNotNull(substring);
+        final Pattern pattern = Pattern.compile(SubstringTest.TEST_REGEX);
+        final Substring substring = new Substring(pattern);
+        Assertions.assertNotNull(substring);
     }
 
     @Test
     void testConstructorWithStringRegexAndGroup() {
-        Substring substring = new Substring("test(\\d+)", 1);
-        assertNotNull(substring);
+        final Substring substring = new Substring(SubstringTest.TEST_REGEX, 1);
+        Assertions.assertNotNull(substring);
     }
 
     @Test
     void testConstructorWithPatternAndGroup() {
-        Pattern pattern = Pattern.compile("test(\\d+)");
-        Substring substring = new Substring(pattern, 1);
-        assertNotNull(substring);
+        final Pattern pattern = Pattern.compile(SubstringTest.TEST_REGEX);
+        final Substring substring = new Substring(pattern, 1);
+        Assertions.assertNotNull(substring);
     }
 
     @Test
     void testApplyBasic() {
-        Substring substring = new Substring("test(\\d+)", 1);
-        String result = substring.apply("test123");
-        assertEquals("123", result);
+        final Substring substring = new Substring(SubstringTest.TEST_REGEX, 1);
+        final String result = substring.apply("test123");
+        Assertions.assertEquals("123", result, "Should extract matched group");
     }
 
     @Test
     void testApplyWithPattern() {
-        Pattern pattern = Pattern.compile("test(\\d+)");
-        Substring substring = new Substring(pattern, 1);
-        String result = substring.apply("test123");
-        assertEquals("123", result);
+        final Pattern pattern = Pattern.compile(SubstringTest.TEST_REGEX);
+        final Substring substring = new Substring(pattern, 1);
+        final String result = substring.apply("test123");
+        Assertions.assertEquals("123", result, "Should work with Pattern object");
     }
 
     @Test
     void testApplyWhenNoMatch() {
-        Substring substring = new Substring("test(\\d+)");
-        String result = substring.apply("no match here");
-        assertEquals("", result);
+        final Substring substring = new Substring(SubstringTest.TEST_REGEX);
+        final String result = substring.apply("no match here");
+        Assertions.assertEquals("", result, "Should return empty string when no match");
     }
 
     @Test
     void testApplyWithGroupZero() {
-        Substring substring = new Substring("test(\\d+)", 0);
-        String result = substring.apply("test123");
-        assertEquals("test123", result.trim());
+        final Substring substring = new Substring(SubstringTest.TEST_REGEX, 0);
+        final String result = substring.apply("test123");
+        Assertions.assertEquals("test123", result.trim(), "Should return full match for group 0");
     }
 
     @Test
     void testApplyWithMultipleGroups() {
-        Substring substring = new Substring("(\\d+)-(\\d+)", 2);
-        String result = substring.apply("123-456");
-        assertEquals("456", result);
+        final Substring substring = new Substring("(\\d+)-(\\d+)", 2);
+        final String result = substring.apply("123-456");
+        Assertions.assertEquals("456", result, "Should extract second group");
     }
 
     @Test
     void testApplyWithPrefixPattern() {
-        Substring substring = new Substring("prefix(\\d+)", 1);
-        String result = substring.apply("prefix123suffix");
-        assertEquals("123", result);
+        final Substring substring = new Substring("prefix(\\d+)", 1);
+        final String result = substring.apply("prefix123suffix");
+        Assertions.assertEquals("123", result, "Should extract from middle of string");
     }
 
     @Test
     void testApplyWithNumberPattern() {
-        Substring substring = new Substring("(\\d+)", 1);
-        String result = substring.apply("abc123def");
-        assertEquals("123", result);
+        final Substring substring = new Substring("(\\d+)", 1);
+        final String result = substring.apply("abc123def");
+        Assertions.assertEquals("123", result, "Should extract numbers from text");
     }
 }

@@ -1,6 +1,5 @@
 package io.github.varyaget;
 
-import java.io.File;
 import io.github.artemget.entrys.file.EVal;
 import io.github.artemget.entrys.operation.ESplit;
 import io.github.artemget.teleroute.command.CmdBatch;
@@ -8,8 +7,13 @@ import io.github.artemget.teleroute.match.MatchRegex;
 import io.github.artemget.teleroute.route.RouteFork;
 import io.github.artemget.teleroute.telegrambots.bot.ConnectionTg;
 import io.github.varyaget.bot.Substring;
-import io.github.varyaget.bot.cmd.*;
+import io.github.varyaget.bot.cmd.CmdDockerUp;
+import io.github.varyaget.bot.cmd.CmdGitClone;
+import io.github.varyaget.bot.cmd.CmdGitPull;
+import io.github.varyaget.bot.cmd.CmdListRepos;
+import io.github.varyaget.bot.cmd.CmdRunCommand;
 import io.github.varyaget.bot.route.RouteAdmin;
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) throws Exception {
