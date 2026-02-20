@@ -32,12 +32,7 @@
         </dependency>
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-longpolling</artifactId>
-            <version>9.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-client</artifactId>
+            <artifactId>telegrambots-meta</artifactId>
             <version>9.2.0</version>
         </dependency>
         <dependency>
@@ -51,8 +46,13 @@
             <version>0.4.2</version>
         </dependency>
         <dependency>
-            <groupId>com.github.ArtemGet</groupId>
-            <artifactId>teleroute</artifactId>
+            <groupId>com.github.ArtemGet.teleroute</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>a558da4a1f</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ArtemGet.teleroute</groupId>
+            <artifactId>core</artifactId>
             <version>a558da4a1f</version>
         </dependency>
         <dependency>
@@ -67,24 +67,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -97,6 +79,7 @@
                     <excludes>
                         <exclude>checkstyle:/src/main/java/io/github/varyaget/Main.java</exclude>
                         <exclude>pmd:/src/main/java/io/github/varyaget/Main.java</exclude>
+                        <exclude>duplicatefinder:.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
