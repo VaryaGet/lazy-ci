@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>24</maven.compiler.source>
-        <maven.compiler.target>24</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.11.4</junit.version>
         <mockito.version>5.15.2</mockito.version>
@@ -80,6 +80,8 @@
                         <exclude>checkstyle:/src/main/java/io/github/varyaget/Main.java</exclude>
                         <exclude>pmd:/src/main/java/io/github/varyaget/Main.java</exclude>
                         <exclude>duplicatefinder:.*</exclude>
+                        <exclude>dependencies:org.apache.logging.log4j:log4j-slf4j-impl</exclude>
+                        <exclude>dependencies:com.amihaiemil.web:eo-yaml</exclude>
                     </excludes>
                 </configuration>
                 <executions>
